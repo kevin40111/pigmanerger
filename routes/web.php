@@ -15,20 +15,14 @@
 //    return view('welcome');
 // });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('logout', function () {
-
     Auth::logout();
-
     return redirect()->route('login');;
 });
 
 Route::group(['prefix' => 'projects', 'middleware' => 'auth'], function () {
     Route::get('/', 'ProjectsController@index');
     Route::get('{id}/open', 'ProjectsController@open');
-});
-
-Route::get('home', function () {
-    return view('welcome');
 });
