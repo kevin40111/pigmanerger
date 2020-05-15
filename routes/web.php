@@ -9,18 +9,26 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//    return view('welcome');
+// });
+
+Auth::routes();
+
+Route::get('logout', function () {
+
+    Auth::logout();
+
+    return redirect()->route('login');;
 });
 
-Auth::routes(['verify' => true]);
+Route::group(['prefix' => 'projects', 'middleware' => 'auth'], function () {
+    Route::get('/', 'ProjectsController@index');
+    Route::get('{id}/open', 'ProjectsController@open');
+});
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('home', function () {
+    return view('welcome');
+});
