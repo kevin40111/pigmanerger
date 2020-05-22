@@ -23,6 +23,8 @@ Route::get('logout', function () {
 });
 
 Route::group(['prefix' => 'projects', 'middleware' => 'auth'], function () {
+    Route::get('/createProject', 'ProjectsController@createProject');
+
+    Route::get('/{id}', 'ProjectsController@open');
     Route::get('/', 'ProjectsController@index');
-    Route::get('{id}/open', 'ProjectsController@open');
 });

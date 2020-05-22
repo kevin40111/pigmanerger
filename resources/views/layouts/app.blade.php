@@ -54,28 +54,24 @@
                     </md-list>
                 </md-app-drawer>
             @endauth
-            <md-app-content >
-                <div id="content">
-                    @yield('content', view(isset($content) ? $content : 'test'))
+            <md-app-content>
+                <div id="template" style="min-height: 100vh" v-pre>
+                    @yield('content')
                 </div>
             </md-app-content>
         </md-app>
     </div>
-    <style>
-        div #content{
-            min-height: 1080px;
-        }
-    </style>
 
     <script>
       Vue.use(VueMaterial.default)
-
-      new Vue({
+      app = new Vue({
         el: '#app',
         data: {
             "menuVisible": false
         }
       })
     </script>
+     @yield('script')
+
 </body>
 </html>
