@@ -17,14 +17,17 @@
 
 Auth::routes(['verify' => true]);
 
+Route::get('test', function () {
+    
+});
+
 Route::get('logout', function () {
     Auth::logout();
     return redirect()->route('login');;
 });
 
-Route::group(['prefix' => 'projects', 'middleware' => 'auth'], function () {
-    Route::get('/createProject', 'ProjectsController@createProject');
-
-    Route::get('/{id}', 'ProjectsController@open');
+Route::group(['prefix' => 'projects', 'middleware' => ['web', 'auth']], function () {
     Route::get('/', 'ProjectsController@index');
+    Route::post('createProject', 'ProjectsController@createProject');
+    Route::get('getProjects', 'ProjectsController@getProjects');
 });

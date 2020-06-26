@@ -20,7 +20,7 @@ class CreateProjects extends Migration
             $table->integer('income')->nullable();
             $table->integer('outcome')->nullable();
 
-            $table->bigInteger('users_id');
+            $table->bigInteger('user_id');
             $table->bigIncrements('id');
             $table->datetime('start_at')->nullable();
             $table->datetime('close_at')->nullable();

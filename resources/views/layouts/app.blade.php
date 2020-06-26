@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -11,6 +10,7 @@
 
     <!-- Scripts -->
     <script src="/js/vue/vue.min.js"></script>
+    <script src="/js/axios.min.js"></script>
     <script src="/js/vue-material/vue-material.min.js"></script>
 
     <!-- Fonts -->
@@ -55,12 +55,20 @@
                 </md-app-drawer>
             @endauth
             <md-app-content>
+                @yield('content')
+                
                 <div id="template" style="min-height: 100vh" v-pre>
-                    @yield('content')
+                    @yield('template')
                 </div>
             </md-app-content>
         </md-app>
     </div>
+
+    <style>
+        .md-dialog-container {
+            transform:initial!important;
+        }
+    </style>
 
     <script>
       Vue.use(VueMaterial.default)

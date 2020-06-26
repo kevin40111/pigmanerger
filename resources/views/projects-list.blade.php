@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
-@section('content')
+@section('template')
 @verbatim
 
 <div>
-    <span> {{ message }} </span>
-    <button v-on:click="active= !active">open dialog</button>
     <form-dialog
+        v-on:create="createProject"
         v-bind:message="message"
-        v-bind:emit="emit"
-        v-bind:active="active"
+        v-bind:emit='emit'
+        v-bind:active.sync="active"
         v-bind:title="title"
         v-bind:fields="fields"
         v-bind:map="map">
     </form-dialog>
-
+    <span> {{ message }} </span>
+    <button v-on:click="active= true">open dialog</button>
 </div>
 
 @endverbatim
@@ -26,21 +26,30 @@
     new Vue({
         el: '#template',
         methods: {
-            test: function(){
-                console.log('test')
+            createProject: function(data) {
+                console.log(data);
+                axios.post('projects/createProject', data).then(function(response) {
+                    console.log(response);
+                });
+            },
+
+            getProjects: function() {
+                axios.get('projects/getProjects').then(function(response) {
+                    console.log(response);
+                });
             }
         },
         created: function() {
-            console.log(this);
+            this.getProjects();
         },
         data: function() {
             return {
                 message: 'Hellow world',
-                emit: 'dialogAgree',
+                emit: 'create',
                 active: false,
                 title: '測試',
                 fields: {
-                    name: 'parent name',
+                    name: '1213123123',
                     password: 'parent passowrd',
                 },
                 map: {

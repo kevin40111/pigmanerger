@@ -31,56 +31,61 @@ Vue.component('formDialog', {
             active: false
         }
     },
+    created: function() {
+        console.log(this.fields);
+    },
     methods: {
         agree: function() {
             this.$emit(this.emit, this.fields);
-            this.active = true;
+            this.$emit('update:active', this.active = false);
         },
 
         cancel: function() {
             this.active = false;
+            this.$emit('update:active', this.active = false);
         }
     },
-    template: `
-        <div>
-            <div>
-                <md-dialog :md-active="active">
-                    <md-dialog-title> {{title}} </md-dialog-title>
+    template: `    
+        <md-dialog :md-active="active">
+            <md-dialog-title> {{title}} </md-dialog-title>
 
-                    <md-dialog-content>
-                        <div v-for="(key, field) in fields">
-                            <md-field v-if="map[field].type == 'text'">
-                                <label> {{map[field].name}} </label>
-                                <md-input v-model="field"></md-input>
-                            </md-field>
+            <md-dialog-content>
+                <div v-for="(key, field) in fields">
+                    <md-field v-if="map[field].type == 'text'">
+                        <label> {{map[field].name}} </label>
+                        <md-input v-model="key"></md-input>
+                    </md-field>
 
-                            <md-field v-if="map[field].type == 'textarea'">
-                                <label> {{map[field].name}} </label>
-                                <md-textarea v-model="field"></md-textarea>
-                            </md-field>
+                    <md-field v-if="map[field].type == 'textarea'">
+                        <label> {{map[field].name}} </label>
+                        <md-textarea v-model="key"></md-textarea>
+                    </md-field>
 
-                            <md-field v-if="map[field].type == 'boolean'">
-                                <md-switch v-model="field"></md-switch>
-                            </md-field>
+                    <md-field v-if="map[field].type == 'boolean'">
+                        <md-switch v-model="key"></md-switch>
+                    </md-field>
 
-                            <md-field v-if="map[field].type == 'number'">
-                                <label> {{map[field].name}} </label>
-                                <md-input v-model="field" type="number"></md-input>
-                            </md-field>
+                    <md-field v-if="map[field].type == 'number'">
+                        <label> {{map[field].name}} </label>
+                        <md-input v-model="key" type="number"></md-input>
+                    </md-field>
 
-                            <md-field v-if="map[field].type == 'password'">
-                                <label> {{map[field].name}} </label>
-                                <md-input v-model="field" type="password"></md-input>
-                            </md-field>
-                        </div>
-                    </md-dialog-content>
+                    <md-field v-if="map[field].type == 'password'">
+                        <label> {{map[field].name}} </label>
+                        <md-input v-model="key" type="password"></md-input>
+                    </md-field>
 
-                    <md-dialog-actions>
-                        <md-button class="md-raised" v-on:click="cancel">取消</md-button>
-                        <md-button class="md-primary md-raised" v-on:click="agree">確認</md-button>
-                    </md-dialog-actions>
-                </md-dialog>
-            </div>
-        </div>
+                    <md-field v-if="map[field].type == 'dateTime'">
+                        <label> {{map[field].name}} </label>
+                        <md-input v-model="key" type="password"></md-input>
+                    </md-field>
+                </div>
+            </md-dialog-content>
+
+            <md-dialog-actions>
+                <md-button class="md-raised" v-on:click="cancel">取消</md-button>
+                <md-button class="md-primary md-raised" v-on:click="agree">確認</md-button>
+            </md-dialog-actions>
+        </md-dialog>
     `
   })
