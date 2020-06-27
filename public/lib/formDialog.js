@@ -1,5 +1,5 @@
 Vue.component('formDialog', {
-    props:{
+    props: {
         map: {
             type: Object,
             require: true
@@ -21,7 +21,7 @@ Vue.component('formDialog', {
             require: true
         }
     },
-    created: function(){
+    created: function () {
         console.log(this);
     },
 
@@ -31,54 +31,65 @@ Vue.component('formDialog', {
             active: false
         }
     },
-    created: function() {
+    created: function () {
+        console.log('---form fields:---');
         console.log(this.fields);
     },
     methods: {
-        agree: function() {
+        init: function() {
+            this.fields = JSON.parse(JSON.stringify(this.fields));
+            this.map = JSON.parse(JSON.stringify(this.map));
+        },
+
+        agree: function () {
             this.$emit(this.emit, this.fields);
             this.$emit('update:active', this.active = false);
         },
 
-        cancel: function() {
+        cancel: function () {
             this.active = false;
             this.$emit('update:active', this.active = false);
+        },
+
+        disabledDates: function (date) {
+            return date < Date.now();
         }
     },
-    template: `    
-        <md-dialog :md-active="active">
+    template: `
+        <md-dialog :md-active="active" v-on:md-opened="init()">
             <md-dialog-title> {{title}} </md-dialog-title>
 
-            <md-dialog-content>
-                <div v-for="(key, field) in fields">
+            <md-dialog-content style="min-width:500px">
+                <div v-for="(key, field) in map">
                     <md-field v-if="map[field].type == 'text'">
                         <label> {{map[field].name}} </label>
-                        <md-input v-model="key"></md-input>
+                        <md-input v-model="fields[field]"></md-input>
                     </md-field>
 
                     <md-field v-if="map[field].type == 'textarea'">
                         <label> {{map[field].name}} </label>
-                        <md-textarea v-model="key"></md-textarea>
-                    </md-field>
-
-                    <md-field v-if="map[field].type == 'boolean'">
-                        <md-switch v-model="key"></md-switch>
+                        <md-textarea v-model="fields[field]"></md-textarea>
                     </md-field>
 
                     <md-field v-if="map[field].type == 'number'">
                         <label> {{map[field].name}} </label>
-                        <md-input v-model="key" type="number"></md-input>
+                        <md-input v-model="fields[field]" type="number"></md-input>
                     </md-field>
 
                     <md-field v-if="map[field].type == 'password'">
                         <label> {{map[field].name}} </label>
-                        <md-input v-model="key" type="password"></md-input>
+                        <md-input v-model="fields[field]" type="password"></md-input>
                     </md-field>
 
-                    <md-field v-if="map[field].type == 'dateTime'">
-                        <label> {{map[field].name}} </label>
-                        <md-input v-model="key" type="password"></md-input>
-                    </md-field>
+                    <div v-if="map[field].type == 'date'">
+                        <md-datepicker v-model="fields[field]" :md-model-type="String" v-bind:md-disabled-dates="disabledDates">
+                            <label>{{map[field].name}}</label>
+                        </md-datepicker>
+                    </div>
+
+                    <div v-if="map[field].type == 'boolean'">
+                        <md-switch v-model="fields[field]">{{map[field].name}}</md-switch>
+                    </div>
                 </div>
             </md-dialog-content>
 
@@ -88,4 +99,4 @@ Vue.component('formDialog', {
             </md-dialog-actions>
         </md-dialog>
     `
-  })
+})

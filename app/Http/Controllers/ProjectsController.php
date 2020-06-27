@@ -13,19 +13,11 @@ class ProjectsController extends Controller
         return view('projects-list');
     }
 
-    public function createProject()
-    {   
-        return Request::all();
-        // $project = new Project();
-        // $project->content = '';
-        // $project->finish = 0;
-        // $project->start_at = '2020-05-21';
-        // $project->title = 'first project';
-        // $project->user()->associate(Auth::user());
-        // $project->save();
+    public function createOrUpdateProeject()
+    {
+        $project = Project::updateOrCreate(['id' => Request::input('id')], array_merge(Request::all(), ['user_id' => Auth::id()]));
 
-        
-        //return ['project' => $project];
+        return $this->getProjects();
     }
 
     public function getProjects()
@@ -35,10 +27,10 @@ class ProjectsController extends Controller
         return ['projects' => $user->projects];
     }
 
-    public function open($id)
+    public function deleteProjects()
     {
-        $project = Project::find($id);
+        Project::where('id', Request::input('deleted'))->where('user_id', Auth::id())->delete();
 
-        return $project;
+        return $this->getProjects();
     }
 }

@@ -18,7 +18,7 @@
 Auth::routes(['verify' => true]);
 
 Route::get('test', function () {
-    
+
 });
 
 Route::get('logout', function () {
@@ -26,8 +26,9 @@ Route::get('logout', function () {
     return redirect()->route('login');;
 });
 
-Route::group(['prefix' => 'projects', 'middleware' => ['web', 'auth']], function () {
+Route::group(['prefix' => 'projects', 'middleware' => ['web', 'auth', 'verified']], function () {
     Route::get('/', 'ProjectsController@index');
-    Route::post('createProject', 'ProjectsController@createProject');
     Route::get('getProjects', 'ProjectsController@getProjects');
+    Route::post('createOrUpdateProeject', 'ProjectsController@createOrUpdateProeject');
+    Route::post('deleteProjects', 'ProjectsController@deleteProjects');
 });

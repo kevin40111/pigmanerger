@@ -56,7 +56,7 @@
             @endauth
             <md-app-content>
                 @yield('content')
-                
+
                 <div id="template" style="min-height: 100vh" v-pre>
                     @yield('template')
                 </div>

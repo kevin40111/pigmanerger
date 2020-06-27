@@ -22,8 +22,8 @@ class CreateProjects extends Migration
 
             $table->bigInteger('user_id');
             $table->bigIncrements('id');
-            $table->datetime('start_at')->nullable();
-            $table->datetime('close_at')->nullable();
+            $table->date('start_at')->nullable();
+            $table->date('close_at')->nullable();
         });
     }
 

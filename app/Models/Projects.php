@@ -11,6 +11,12 @@ class Project extends Model
 
     public $timestamps = false;
 
+    public $fillable = ['id', 'title', 'content', 'start_at', 'close_at', 'income', 'outcome', 'finish', 'user_id'];
+
+    protected $casts = [
+        'finish' => 'boolean',
+    ];
+
     public function user() {
         return $this->belongsTo(User::class);
     }
