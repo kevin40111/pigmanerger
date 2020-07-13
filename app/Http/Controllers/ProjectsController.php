@@ -29,7 +29,7 @@ class ProjectsController extends Controller
 
     public function deleteProjects()
     {
-        Project::where('id', Request::input('deleted'))->where('user_id', Auth::id())->delete();
+        Project::whereIn('id', Request::input('deleted'))->where('user_id', Auth::id())->delete();
 
         return $this->getProjects();
     }
