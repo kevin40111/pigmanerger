@@ -14,6 +14,9 @@
 // Route::get('/', function () {
 //    return view('welcome');
 // });
+Route::get('test', function(){
+    return "test";
+});
 
 Auth::routes(['verify' => true]);
 
